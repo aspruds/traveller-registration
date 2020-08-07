@@ -1,0 +1,41 @@
+logging:
+  level:
+    sun.net.www.protocol.http: INFO
+    com:
+      zaxxer: INFO
+    javax:
+      management: INFO
+    org:
+      apache: INFO
+      hibernate: INFO
+      postgresql: INFO
+      springframework: INFO
+      springframework.amqp: INFO
+      springframework.integration.config.xml: WARN
+      springframework.context.support: WARN
+    root: TRACE
+  path: logs
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    hikari:
+      connectionTimeout: 3000
+      maximumPoolSize: 5
+    url: jdbc:postgresql://localhost:5432/traveller_registration
+    username: traveller_registration
+    password: changeme
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+  output:
+    ansi:
+      enabled: ALWAYS
