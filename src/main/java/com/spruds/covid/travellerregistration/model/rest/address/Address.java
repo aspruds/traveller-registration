@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.rest;
+package com.spruds.covid.travellerregistration.model.rest.address;
 
 import lombok.Data;
 
@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 public class Address {
     @NotNull
     private String countryCode;
-
     private String zip;
     private String province;
     private String city;

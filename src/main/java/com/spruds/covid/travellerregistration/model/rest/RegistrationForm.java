@@ -1,5 +1,9 @@
 package com.spruds.covid.travellerregistration.model.rest;
 
+import com.spruds.covid.travellerregistration.model.rest.address.Address;
+import com.spruds.covid.travellerregistration.model.rest.transport.TransportDetails;
+import com.spruds.covid.travellerregistration.model.rest.traveller.Traveller;
+import com.spruds.covid.travellerregistration.model.rest.validators.TransportDetailsPlaneConstraint;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,18 +16,18 @@ import java.util.List;
 @Data
 @Valid
 public class RegistrationForm {
-    @Getter @Setter @Valid
+    @Getter @Setter @Valid @NotNull @TransportDetailsPlaneConstraint
     TransportDetails transportDetails;
 
-    @Getter @Setter
+    @Getter @Setter @NotNull
     LocalDate dateOfEntry;
 
-    @Getter @Setter
+    @Getter @Setter @NotNull
     Boolean isTransit;
 
-    @Getter @Setter @Valid
+    @Getter @Setter @Valid @NotNull
     private List<Traveller> travellers;
 
-    @Getter @Setter @NotNull @Valid
+    @Getter @Setter @Valid @NotNull
     private List<Address> addresses;
 }

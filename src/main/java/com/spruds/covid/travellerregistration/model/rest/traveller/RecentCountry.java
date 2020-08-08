@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.rest;
+package com.spruds.covid.travellerregistration.model.rest.traveller;
 
 import lombok.Data;
 

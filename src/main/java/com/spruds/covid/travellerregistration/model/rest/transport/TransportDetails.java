@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.rest;
+package com.spruds.covid.travellerregistration.model.rest.transport;
 
 import lombok.Data;
 import lombok.Getter;
@@ -6,14 +6,13 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 public class TransportDetails {
     @Getter
     @Setter
     @NotNull
-    private String carrierTypeCode;
+    private CarrierType carrierType;
 
     @Getter
     @Setter
