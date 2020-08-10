@@ -2,7 +2,9 @@ package com.spruds.covid.travellerregistration;
 
 import com.spruds.covid.travellerregistration.config.MockClockConfiguration;
 import com.spruds.covid.travellerregistration.model.rest.RegistrationForm;
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.test.annotation.FlywayTest;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -19,6 +21,8 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(classes = TravellerRegistrationApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(MockClockConfiguration.class)
 @ActiveProfiles({ "test" })
+@FlywayTest
+@AutoConfigureEmbeddedDatabase
 public class SubmitRegistrationTest implements RegistrationFormSample {
 
     @LocalServerPort
@@ -43,7 +47,8 @@ public class SubmitRegistrationTest implements RegistrationFormSample {
                 "foreignerNeededForBusiness:false, nationalIdNumber: 721229-11302, seat:9A, sex: MALE," +
                 "identityDocument:{documentType: PASSPORT, issuingCountryCode: LV, documentNumber: PA1922112}," +
                 "contactInformation:{email: john.b@gmail.com, phoneCountryCode:'+371', phoneNumber:'94186444'}," +
-                "recentCountries:[{countryCode:LV, dateOfExit: 2020-08-07}]}]}";
+                "recentCountries:[{countryCode:LV, dateOfExit: 2020-08-07}]}]," +
+                "dateReceived: '2020-08-07T16:45:42'}";
         JSONAssert.assertEquals(expected, response.getBody(), false);
     }
 

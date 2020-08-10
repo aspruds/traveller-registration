@@ -12,7 +12,7 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name="country_id")
-    private Long typeId;
+    private Long countryId;
 
     @Setter
     @Getter

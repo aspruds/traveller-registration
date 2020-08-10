@@ -12,7 +12,9 @@ import lombok.Setter;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Valid
@@ -31,4 +33,10 @@ public class RegistrationForm {
 
     @Getter @Setter @Valid @NotNull
     private List<Address> addresses;
+
+    @Getter @Setter
+    private LocalDateTime dateReceived;
+
+    @Getter @Setter
+    private UUID registrationId;
 }
