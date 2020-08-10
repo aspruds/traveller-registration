@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(classes = TravellerRegistrationApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(MockClockConfiguration.class)
 @ActiveProfiles({ "test" })
-public class SubmitFormTest implements RegistrationFormSample {
+public class SubmitRegistrationTest implements RegistrationFormSample {
 
     @LocalServerPort
     private int port;
@@ -34,7 +34,7 @@ public class SubmitFormTest implements RegistrationFormSample {
         HttpEntity<RegistrationForm> entity = new HttpEntity<>(form, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/submit-form"),
+                createURLWithPort("/registrations"),
                 HttpMethod.POST, entity, String.class);
 
         String expected = "{transportDetails: { carrierType:PLANE, flightNumber:BT101, flightDate:2020-08-06 }," +

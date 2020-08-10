@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-public class SubmitController {
-    @PostMapping("/submit-form")
+public class RegistrationsController {
+    @PostMapping("/registrations")
     @ResponseStatus(HttpStatus.CREATED)
     @CrossOrigin(origins = "https://covid-registration.gov.lv", allowCredentials = "true")
     public RegistrationForm submit(@RequestBody @Validated RegistrationForm registrationForm) {
