@@ -1,5 +1,6 @@
 package com.spruds.covid.travellerregistration.model.db;
 
+import com.spruds.covid.travellerregistration.model.db.address.Address;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -7,6 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +30,12 @@ public class Registration {
     )
     @Column(name = "registration_uuid", updatable = false, nullable = false)
     private UUID registrationUUID;
+
+    @Getter
+    @Setter
+    @OneToMany
+    @JoinColumn(name = "registration_id")
+    private Set<Address> addresses = new HashSet<Address>();
 
     @Getter @Setter
     @Column(name="is_transit")

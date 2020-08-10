@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.db;
+package com.spruds.covid.travellerregistration.model.db.transport;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-public class SexType {
+public class CarrierType {
     @Setter
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)

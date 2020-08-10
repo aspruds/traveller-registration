@@ -22,7 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 @Import(MockClockConfiguration.class)
 @ActiveProfiles({ "test" })
 @FlywayTest
-@AutoConfigureEmbeddedDatabase
+//@AutoConfigureEmbeddedDatabase
 public class SubmitRegistrationTest implements RegistrationFormSample {
 
     @LocalServerPort

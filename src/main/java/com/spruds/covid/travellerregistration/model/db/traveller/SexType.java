@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.db;
+package com.spruds.covid.travellerregistration.model.db.traveller;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,13 +6,13 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-public class Country {
+public class SexType {
     @Setter
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name="country_id")
-    private Long countryId;
+    @Column(name="type_id")
+    private Long typeId;
 
     @Setter
     @Getter
@@ -23,7 +23,4 @@ public class Country {
     @Getter
     @Column(name="name")
     private String name;
-
-    @Getter @Setter
-    private Boolean isolationRequired;
 }

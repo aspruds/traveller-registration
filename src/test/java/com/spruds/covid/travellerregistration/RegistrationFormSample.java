@@ -55,6 +55,11 @@ public interface RegistrationFormSample {
 
         Address address = new Address();
         address.setCountryCode("LV");
+        address.setZip("LV-1012");
+        address.setCity("Rīga");
+        address.setStreet("Brīvības");
+        address.setHouse("121A");
+        address.setFlat("5");
         form.setAddresses(Collections.singletonList(address));
 
         form.setTravellers(Collections.singletonList(traveller));
