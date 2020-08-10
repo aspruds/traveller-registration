@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.rest.validators;
+package com.spruds.covid.travellerregistration.model.validators.traveller;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

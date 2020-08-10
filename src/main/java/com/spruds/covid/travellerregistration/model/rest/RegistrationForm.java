@@ -3,7 +3,8 @@ package com.spruds.covid.travellerregistration.model.rest;
 import com.spruds.covid.travellerregistration.model.rest.address.Address;
 import com.spruds.covid.travellerregistration.model.rest.transport.TransportDetails;
 import com.spruds.covid.travellerregistration.model.rest.traveller.Traveller;
-import com.spruds.covid.travellerregistration.model.rest.validators.TransportDetailsPlaneConstraint;
+import com.spruds.covid.travellerregistration.model.validators.DateOfEntryConstraint;
+import com.spruds.covid.travellerregistration.model.validators.transport.TransportDetailsPlaneConstraint;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ public class RegistrationForm {
     @Getter @Setter @Valid @NotNull @TransportDetailsPlaneConstraint
     TransportDetails transportDetails;
 
-    @Getter @Setter @NotNull
+    @Getter @Setter @NotNull @DateOfEntryConstraint
     LocalDate dateOfEntry;
 
     @Getter @Setter @NotNull

@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.rest.validators;
+package com.spruds.covid.travellerregistration.model.validators.traveller;
 
 import com.spruds.covid.travellerregistration.model.rest.id.IdentityDocument;
 import com.spruds.covid.travellerregistration.model.rest.traveller.Traveller;

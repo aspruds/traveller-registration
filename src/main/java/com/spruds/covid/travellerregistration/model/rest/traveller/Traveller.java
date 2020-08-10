@@ -1,12 +1,14 @@
 package com.spruds.covid.travellerregistration.model.rest.traveller;
 
 import com.spruds.covid.travellerregistration.model.rest.id.IdentityDocument;
-import com.spruds.covid.travellerregistration.model.rest.validators.NationalIdNumberConstraint;
-import com.spruds.covid.travellerregistration.model.rest.validators.TraverllerIdNumberConstraint;
+import com.spruds.covid.travellerregistration.model.validators.traveller.NationalIdNumberConstraint;
+import com.spruds.covid.travellerregistration.model.validators.traveller.TraverllerIdNumberConstraint;
 import lombok.Data;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,9 +17,13 @@ import java.util.List;
 @TraverllerIdNumberConstraint
 public class Traveller {
     @NotNull
+    @NotEmpty
+    @Pattern(message = "only Latin characters are supported", regexp = "^([A-Za-z -']{1,})$")
     private String firstName;
 
     @NotNull
+    @NotEmpty
+    @Pattern(message = "only Latin characters are supported", regexp = "^([A-Za-z -']{1,})$")
     private String lastName;
 
     @Valid @NotNull
@@ -34,6 +40,7 @@ public class Traveller {
     @NotNull
     private Integer age;
 
+    @NotEmpty
     private String seat;
 
     @NotNull

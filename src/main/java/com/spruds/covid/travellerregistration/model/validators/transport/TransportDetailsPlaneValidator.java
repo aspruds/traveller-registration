@@ -1,4 +1,4 @@
-package com.spruds.covid.travellerregistration.model.rest.validators;
+package com.spruds.covid.travellerregistration.model.validators.transport;
 
 import com.spruds.covid.travellerregistration.model.rest.transport.CarrierType;
 import com.spruds.covid.travellerregistration.model.rest.transport.TransportDetails;

@@ -1,7 +1,7 @@
-package com.spruds.covid.travellerregistration;
+package com.spruds.covid.travellerregistration.model.validators.traveller;
 
+import com.spruds.covid.travellerregistration.RegistrationFormSample;
 import com.spruds.covid.travellerregistration.model.rest.traveller.Traveller;
-import com.spruds.covid.travellerregistration.model.rest.validators.TravellerIdNumberValidator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

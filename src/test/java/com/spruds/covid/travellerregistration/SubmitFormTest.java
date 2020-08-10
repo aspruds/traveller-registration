@@ -1,18 +1,24 @@
 package com.spruds.covid.travellerregistration;
 
+import com.spruds.covid.travellerregistration.config.MockClockConfiguration;
 import com.spruds.covid.travellerregistration.model.rest.RegistrationForm;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(classes = TravellerRegistrationApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(MockClockConfiguration.class)
+@ActiveProfiles({ "test" })
 public class SubmitFormTest implements RegistrationFormSample {
 
     @LocalServerPort
