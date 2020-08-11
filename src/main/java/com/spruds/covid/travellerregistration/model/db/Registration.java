@@ -2,6 +2,7 @@ package com.spruds.covid.travellerregistration.model.db;
 
 import com.spruds.covid.travellerregistration.model.db.address.Address;
 import com.spruds.covid.travellerregistration.model.db.transport.TransportDetails;
+import com.spruds.covid.travellerregistration.model.db.traveller.Traveller;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,7 +37,13 @@ public class Registration {
     @Setter
     @OneToMany
     @JoinColumn(name = "registration_id")
-    private Set<Address> addresses = new HashSet<Address>();
+    private Set<Address> addresses = new HashSet<>();
+
+    @Getter
+    @Setter
+    @OneToMany
+    @JoinColumn(name = "traveller_id")
+    private Set<Traveller> travellers = new HashSet<>();
 
     @Getter
     @Setter

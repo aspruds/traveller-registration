@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "sex_types")
 public class SexType {
     @Setter
     @Getter

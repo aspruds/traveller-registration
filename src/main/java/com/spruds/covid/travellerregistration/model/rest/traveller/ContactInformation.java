@@ -2,7 +2,6 @@ package com.spruds.covid.travellerregistration.model.rest.traveller;
 
 import lombok.Data;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
