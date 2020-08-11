@@ -17,6 +17,13 @@ CREATE TABLE countries (
  PRIMARY KEY(country_id)
 );
 
+CREATE TABLE carrier_types (
+ type_id BIGSERIAL NOT NULL,
+ code TEXT NOT NULL,
+ name TEXT NOT NULL,
+ PRIMARY KEY(type_id)
+);
+
 CREATE TABLE
     addresses
     (
@@ -34,4 +41,14 @@ CREATE TABLE
         PRIMARY KEY (address_id)
     );
 
+CREATE TABLE transport_details (
+ transport_details_id BIGSERIAL NOT NULL,
+ registration_id BIGINT NOT NULL REFERENCES registrations(registration_id),
+ carrier_type_id BIGINT NOT NULL REFERENCES carrier_types(type_id),
+ flight_number TEXT,
+ flight_date DATE,
+ PRIMARY KEY(transport_details_id)
+);
+
 INSERT INTO countries(code, name, isolation_required) VALUES ('LV', 'Latvia', false);
+INSERT INTO carrier_types(code, name) VALUES ('PLANE', 'Plane');

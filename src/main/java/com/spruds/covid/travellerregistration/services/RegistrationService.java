@@ -3,10 +3,10 @@ package com.spruds.covid.travellerregistration.services;
 import com.spruds.covid.travellerregistration.model.db.Registration;
 import com.spruds.covid.travellerregistration.model.db.address.Address;
 import com.spruds.covid.travellerregistration.model.db.address.Country;
+import com.spruds.covid.travellerregistration.model.db.transport.TransportDetails;
 import com.spruds.covid.travellerregistration.model.rest.RegistrationForm;
-import com.spruds.covid.travellerregistration.repositories.AddressRepository;
-import com.spruds.covid.travellerregistration.repositories.CountryRepository;
-import com.spruds.covid.travellerregistration.repositories.RegistrationRepository;
+import com.spruds.covid.travellerregistration.model.db.transport.CarrierType;
+import com.spruds.covid.travellerregistration.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -26,15 +26,21 @@ public class RegistrationService {
     private RegistrationRepository registrationRepository;
     private CountryRepository countryRepository;
     private AddressRepository addressRepository;
+    private CarrierTypeRepository carrierTypeRepository;
+    private TransportDetailsRepository transportDetailsRepository;
 
     public RegistrationService(Clock clock,
                                RegistrationRepository registrationRepository,
                                CountryRepository countryRepository,
-                               AddressRepository addressRepository) {
+                               AddressRepository addressRepository,
+                               CarrierTypeRepository carrierTypeRepository,
+                               TransportDetailsRepository transportDetailsRepository) {
         this.clock = clock;
         this.registrationRepository = registrationRepository;
         this.countryRepository = countryRepository;
         this.addressRepository = addressRepository;
+        this.carrierTypeRepository = carrierTypeRepository;
+        this.transportDetailsRepository = transportDetailsRepository;
     }
 
     public Registration save(RegistrationForm form) {
@@ -47,6 +53,7 @@ public class RegistrationService {
         registration.setIsTransit(form.getIsTransit());
 
         registrationRepository.save(registration);
+        setTransportDetails(registration, form);
         setAddresses(registration, form);
 
         return registration;
@@ -54,10 +61,10 @@ public class RegistrationService {
 
     private void setAddresses(Registration registration, RegistrationForm form) {
         Set<Address> addressSet = form.getAddresses().stream().map( a -> {
-            Country country = countryRepository.findFirstByCode(a.getCountryCode());
-            if(country == null) {
-                throw new EntityNotFoundException("unable to find country by code: " + a.getCountryCode());
-            }
+            Country country = countryRepository
+                    .findByCode(a.getCountryCode())
+                    .orElseThrow(() -> new EntityNotFoundException("unable to find country by code: " + a.getCountryCode()));
+
             Address address = new Address();
             address.setRegistration(registration);
             address.setCountry(country);
@@ -74,5 +81,20 @@ public class RegistrationService {
 
         addressSet.stream().forEach(a -> addressRepository.save(a));
         registration.setAddresses(addressSet);
+    }
+
+    private void setTransportDetails(Registration registration, RegistrationForm form) {
+        com.spruds.covid.travellerregistration.model.rest.transport.TransportDetails transportDetailsRest =
+                form.getTransportDetails();
+        CarrierType carrierType = carrierTypeRepository
+                .findByCode(transportDetailsRest.getCarrierType().name())
+                .orElseThrow(() -> new EntityNotFoundException("could not find carrier type by code: " +  form.getTransportDetails().getCarrierType().name()));
+        TransportDetails transportDetails = new TransportDetails();
+        transportDetails.setRegistration(registration);
+        transportDetails.setCarrierType(carrierType);
+        transportDetails.setFlightDate(transportDetailsRest.getFlightDate());
+        transportDetails.setFlightNumber(transportDetailsRest.getFlightNumber());
+
+        transportDetailsRepository.save(transportDetails);
     }
 }

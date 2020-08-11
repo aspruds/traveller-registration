@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "carrier_types")
 public class CarrierType {
     @Setter
     @Getter
