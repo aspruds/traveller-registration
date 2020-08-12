@@ -1,5 +1,8 @@
-package com.spruds.covid.travellerregistration.model.db.traveller;
+package com.spruds.covid.travellerregistration.model.db.id;
 
+import com.spruds.covid.travellerregistration.model.db.address.Country;
+import com.spruds.covid.travellerregistration.model.db.traveller.SexType;
+import com.spruds.covid.travellerregistration.model.db.traveller.Traveller;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,18 +28,20 @@ public class IdentityDocument {
     @Getter
     @Setter
     @NotNull
-    @Column(name="email")
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "issuing_country_id")
+    private Country issuingCountry;
+
+    @Getter
+    @Setter
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "identity_document_type_id")
+    private IdentityDocumentType documentType;
 
     @Setter
     @Getter
     @NotNull
-    @Column(name="phone_country_code")
-    private String phoneCountryCode;
-
-    @Setter
-    @Getter
-    @NotNull
-    @Column(name="phone")
-    private String phone;
+    @Column(name="document_number")
+    private String documentNumber;
 }

@@ -1,6 +1,7 @@
 package com.spruds.covid.travellerregistration.model.db.traveller;
 
 import com.spruds.covid.travellerregistration.model.db.Registration;
+import com.spruds.covid.travellerregistration.model.db.id.IdentityDocument;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -79,7 +80,14 @@ public class Traveller {
 
     @Getter
     @Setter
-    @OneToMany
+    @NotNull
+    @OneToOne(mappedBy = "traveller", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private IdentityDocument identityDocument;
+
+    @Getter
+    @Setter
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "traveller_id")
     private Set<RecentCountry> recentCountries = new HashSet<>();
 }

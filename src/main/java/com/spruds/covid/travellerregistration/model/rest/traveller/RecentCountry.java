@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Data
 public class RecentCountry {
+    @NotNull
     private String countryCode;
 
     @NotNull

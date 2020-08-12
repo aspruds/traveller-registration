@@ -35,13 +35,13 @@ public class Registration {
 
     @Getter
     @Setter
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "registration_id")
     private Set<Address> addresses = new HashSet<>();
 
     @Getter
     @Setter
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "traveller_id")
     private Set<Traveller> travellers = new HashSet<>();
 

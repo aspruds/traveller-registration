@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "identity_document_types")
 public class IdentityDocumentType {
     @Setter
     @Getter

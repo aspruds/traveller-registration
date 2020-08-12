@@ -3,8 +3,11 @@ package com.spruds.covid.travellerregistration.services;
 import com.spruds.covid.travellerregistration.model.db.Registration;
 import com.spruds.covid.travellerregistration.model.db.address.Address;
 import com.spruds.covid.travellerregistration.model.db.address.Country;
+import com.spruds.covid.travellerregistration.model.db.id.IdentityDocumentType;
 import com.spruds.covid.travellerregistration.model.db.transport.TransportDetails;
 import com.spruds.covid.travellerregistration.model.db.traveller.ContactInformation;
+import com.spruds.covid.travellerregistration.model.db.id.IdentityDocument;
+import com.spruds.covid.travellerregistration.model.db.traveller.RecentCountry;
 import com.spruds.covid.travellerregistration.model.db.traveller.SexType;
 import com.spruds.covid.travellerregistration.model.db.traveller.Traveller;
 import com.spruds.covid.travellerregistration.model.rest.RegistrationForm;
@@ -24,42 +27,27 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class RegistrationService {
-    private Clock clock;
+    private final Clock clock;
 
-    private RegistrationRepository registrationRepository;
-    private CountryRepository countryRepository;
-    private AddressRepository addressRepository;
-    private CarrierTypeRepository carrierTypeRepository;
-    private TransportDetailsRepository transportDetailsRepository;
-    private SexTypeRepository sexTypeRepository;
-    private IdentityDocumentTypeRepository identityDocumentTypeRepository;
-    private IdentityDocumentRepository identityDocumentRepository;
-    private ContactInformationRepository contactInformationRepository;
-    private TravellerRepository travellerRepository;
+    private final RegistrationRepository registrationRepository;
+    private final CountryRepository countryRepository;
+    private final CarrierTypeRepository carrierTypeRepository;
+    private final SexTypeRepository sexTypeRepository;
+    private final IdentityDocumentTypeRepository identityDocumentTypeRepository;
 
     public RegistrationService(Clock clock,
                                RegistrationRepository registrationRepository,
                                CountryRepository countryRepository,
-                               AddressRepository addressRepository,
                                CarrierTypeRepository carrierTypeRepository,
-                               TransportDetailsRepository transportDetailsRepository,
                                SexTypeRepository sexTypeRepository,
-                               IdentityDocumentTypeRepository identityDocumentTypeRepository,
-                               IdentityDocumentRepository identityDocumentRepository,
-                               ContactInformationRepository contactInformationRepository,
-                               TravellerRepository travellerRepository) {
+                               IdentityDocumentTypeRepository identityDocumentTypeRepository) {
         this.clock = clock;
 
         this.registrationRepository = registrationRepository;
         this.countryRepository = countryRepository;
-        this.addressRepository = addressRepository;
         this.carrierTypeRepository = carrierTypeRepository;
-        this.transportDetailsRepository = transportDetailsRepository;
         this.sexTypeRepository = sexTypeRepository;
         this.identityDocumentTypeRepository = identityDocumentTypeRepository;
-        this.identityDocumentRepository = identityDocumentRepository;
-        this.contactInformationRepository = contactInformationRepository;
-        this.travellerRepository = travellerRepository;
     }
 
     public Registration save(RegistrationForm form) {
@@ -71,12 +59,11 @@ public class RegistrationService {
         registration.setDateOfEntry(form.getDateOfEntry());
         registration.setIsTransit(form.getIsTransit());
 
-        registrationRepository.save(registration);
-
         setTransportDetails(registration, form);
         setAddresses(registration, form);
         setTravellers(registration, form);
-
+        
+        registrationRepository.save(registration);
         return registration;
     }
 
@@ -97,8 +84,6 @@ public class RegistrationService {
             address.setFlat(a.getFlat());
             return address;
         }).collect(Collectors.toSet());
-
-        addressSet.stream().forEach(a -> addressRepository.save(a));
         registration.setAddresses(addressSet);
     }
 
@@ -113,8 +98,7 @@ public class RegistrationService {
         transportDetails.setCarrierType(carrierType);
         transportDetails.setFlightDate(transportDetailsRest.getFlightDate());
         transportDetails.setFlightNumber(transportDetailsRest.getFlightNumber());
-
-        transportDetailsRepository.save(transportDetails);
+        registration.setTransportDetails(transportDetails);
     }
 
     private void setTravellers(Registration registration, RegistrationForm form) {
@@ -143,12 +127,35 @@ public class RegistrationService {
             contactInformation.setTraveller(traveller);
             traveller.setContactInformation(contactInformation);
 
+            // identity document
+            IdentityDocument identityDocument = new IdentityDocument();
+            com.spruds.covid.travellerregistration.model.rest.id.IdentityDocument
+                    identityDocumentRest = t.getIdentityDocument();
+            identityDocument.setDocumentNumber(identityDocumentRest.getDocumentNumber());
+
+            Country issuingCountry = countryByCode(identityDocumentRest.getIssuingCountryCode());
+            identityDocument.setIssuingCountry(issuingCountry);
+
+            IdentityDocumentType identityDocumentType =
+                    identityDocumentTypeByCode(identityDocumentRest.getDocumentType().name());
+            identityDocument.setDocumentType(identityDocumentType);
+            identityDocument.setTraveller(traveller);
+            traveller.setIdentityDocument(identityDocument);
+
+            // recent countries
+            Set<RecentCountry> recentCountrySet = t.getRecentCountries().stream().map(c -> {
+                Country recentCountryDAO = countryByCode(c.getCountryCode());
+                RecentCountry recentCountry = new RecentCountry();
+                recentCountry.setTraveller(traveller);
+                recentCountry.setCountry(recentCountryDAO);
+                recentCountry.setDateOfExit(c.getDateOfExit());
+                return recentCountry;
+            }).collect(Collectors.toSet());
+            traveller.setRecentCountries(recentCountrySet);
             return traveller;
         }).collect(Collectors.toSet());
-        travellerSet.stream().forEach(t -> travellerRepository.save(t));
         registration.setTravellers(travellerSet);
     }
-
 
     private Country countryByCode(String code) {
         return countryRepository
@@ -166,5 +173,11 @@ public class RegistrationService {
         return carrierTypeRepository
                 .findByCode(code)
                 .orElseThrow(() -> new EntityNotFoundException("could not find carrier type by code: " +  code));
+    }
+
+    private IdentityDocumentType identityDocumentTypeByCode(String code) {
+        return identityDocumentTypeRepository
+                .findByCode(code)
+                .orElseThrow(() -> new EntityNotFoundException("could not find identity document type by code: " +  code));
     }
 }

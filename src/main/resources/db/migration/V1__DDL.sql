@@ -93,10 +93,10 @@ CREATE TABLE contact_information (
     PRIMARY KEY(contact_information_id)
 );
 
-CREATE TABLE identity_document (
+CREATE TABLE identity_documents (
     identity_document_id BIGSERIAL NOT NULL,
     traveller_id BIGINT NOT NULL REFERENCES travellers(traveller_id),
-    type_id BIGINT NOT NULL REFERENCES identity_document_types(type_id),
+    identity_document_type_id BIGINT NOT NULL REFERENCES identity_document_types(type_id),
     issuing_country_id BIGINT NOT NULL REFERENCES countries(country_id),
     document_number TEXT NOT NULL,
     PRIMARY KEY(identity_document_id)
