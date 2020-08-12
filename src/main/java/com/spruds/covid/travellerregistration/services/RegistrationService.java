@@ -62,7 +62,7 @@ public class RegistrationService {
         setTransportDetails(registration, form);
         setAddresses(registration, form);
         setTravellers(registration, form);
-        
+
         registrationRepository.save(registration);
         return registration;
     }

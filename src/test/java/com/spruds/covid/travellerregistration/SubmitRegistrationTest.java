@@ -22,7 +22,8 @@ import org.springframework.test.context.ActiveProfiles;
 @Import(MockClockConfiguration.class)
 @ActiveProfiles({ "test" })
 @FlywayTest
-//@AutoConfigureEmbeddedDatabase
+@AutoConfigureEmbeddedDatabase
+@Slf4j
 public class SubmitRegistrationTest implements RegistrationFormSample {
 
     @LocalServerPort
@@ -49,6 +50,7 @@ public class SubmitRegistrationTest implements RegistrationFormSample {
                 "contactInformation:{email: john.b@gmail.com, phoneCountryCode:'+371', phoneNumber:'94186444'}," +
                 "recentCountries:[{countryCode:LV, dateOfExit: 2020-08-07}]}]," +
                 "dateReceived: '2020-08-07T16:45:42'}";
+
         JSONAssert.assertEquals(expected, response.getBody(), false);
     }
 
